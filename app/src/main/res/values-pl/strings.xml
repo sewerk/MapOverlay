@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">FatTap</string>
+    <string name="accessibility_service_description">Wykonuje gesty na ekranie (zoom, swipe) dla nakładki mapy</string>
+
+    <string name="subtitle">Łatwa mapa w trasie</string>
+    <string name="step_overlay_permission">Zezwól na wyświetlanie nad innymi aplikacjami</string>
+    <string name="step_accessibility_service">Włącz usługę dostępności Map Gesture Service</string>
+    <string name="action_start">Uruchom nakładkę</string>
+    <string name="action_stop">Zatrzymaj nakładkę</string>
+
+    <string name="notification_channel_name">FatTap</string>
+    <string name="notification_title">FatTap aktywny</string>
+
+    <string name="disclosure_title">Użycie usługi dostępności</string>
+    <string name="disclosure_body">Ta aplikacja używa usługi dostępności do wykonywania gestów dotykowych (swipe, pinch zoom) w Twoim imieniu. Nie zbiera, nie przechowuje ani nie przesyła żadnych danych osobowych. Usługa wykonuje gesty wyłącznie po naciśnięciu przycisków nakładki.</string>
+    <string name="disclosure_accept">Rozumiem</string>
+    <string name="disclosure_decline">Anuluj</string>
+</resources>

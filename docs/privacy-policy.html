@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FatTap — Privacy Policy</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            max-width: 640px;
+            margin: 0 auto;
+            padding: 24px 16px;
+            line-height: 1.6;
+            color: #222;
+            background: #fff;
+        }
+        h1 { font-size: 1.6em; margin-bottom: 0.2em; }
+        h2 { font-size: 1.15em; margin-top: 1.8em; color: #333; }
+        .date { color: #666; font-size: 0.9em; margin-bottom: 2em; }
+        .lang-switch { text-align: right; margin-bottom: 1em; }
+        .lang-switch a {
+            text-decoration: none;
+            color: #1a73e8;
+            font-size: 0.9em;
+            padding: 4px 10px;
+            border: 1px solid #1a73e8;
+            border-radius: 4px;
+        }
+        section { display: none; }
+        section:target, section.default { display: block; }
+        ul { padding-left: 1.4em; }
+        li { margin-bottom: 0.4em; }
+        a { color: #1a73e8; }
+        .contact { margin-top: 2em; padding-top: 1em; border-top: 1px solid #eee; }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            function show(lang) {
+                document.getElementById("en").style.display = lang === "en" ? "block" : "none";
+                document.getElementById("pl").style.display = lang === "pl" ? "block" : "none";
+            }
+            document.querySelectorAll(".lang-switch a").forEach(function (a) {
+                a.addEventListener("click", function (e) {
+                    e.preventDefault();
+                    show(this.dataset.lang);
+                });
+            });
+            var lang = navigator.language || "";
+            show(lang.startsWith("pl") ? "pl" : "en");
+        });
+    </script>
+</head>
+<body>
+
+<div class="lang-switch">
+    <a href="#en" data-lang="en">English</a>
+    <a href="#pl" data-lang="pl">Polski</a>
+</div>
+
+<!-- ENGLISH -->
+<section id="en" class="default">
+
+<h1>FatTap — Privacy Policy</h1>
+<p class="date">Last updated: April 12, 2026</p>
+
+<h2>In short</h2>
+<p>FatTap does not collect any data. Nothing leaves your device.</p>
+
+<h2>What the app does</h2>
+<p>FatTap displays large buttons on your screen that help you control map apps while riding. When you press a button, the app performs a swipe or zoom gesture for you. That's all it does.</p>
+
+<h2>What data is collected</h2>
+<p>None. FatTap:</p>
+<ul>
+    <li>Does not collect personal information</li>
+    <li>Does not track how you use the app</li>
+    <li>Does not send anything over the internet</li>
+    <li>Does not use cookies, analytics, or advertising</li>
+    <li>Does not share anything with third parties</li>
+</ul>
+
+<h2>Data storage and retention</h2>
+<p>FatTap stores only one setting on your device — whether you have read the accessibility service notice. No other data is saved. Nothing is sent to any server.</p>
+
+<h2>Accessibility service</h2>
+<p>FatTap needs this permission to perform touch gestures on your behalf — swipe the map and zoom in or out. The app does not read, observe, or record anything on your screen. Gestures are only performed when you press a button.</p>
+
+<h2>Third-party services</h2>
+<p>FatTap does not include any third-party services, advertising SDKs, or analytics tools.</p>
+
+<h2>Children</h2>
+<p>FatTap does not collect data from anyone, including children under 13.</p>
+
+<h2>Your rights</h2>
+<p>Since FatTap does not collect any personal data, there is no data to access, correct, or delete. You can uninstall the app at any time to remove all local settings.</p>
+
+<h2>Changes to this policy</h2>
+<p>If this policy changes, the updated version will be published here with a new date. Since the app collects no data, significant changes are unlikely.</p>
+
+<div class="contact">
+    <h2>Contact</h2>
+    <p>Questions? Open an issue at:<br>
+    <a href="https://github.com/sewerk/MapOverlay/issues">github.com/sewerk/MapOverlay/issues</a></p>
+</div>
+
+</section>
+
+<!-- POLSKI -->
+<section id="pl">
+
+<h1>FatTap — Polityka prywatności</h1>
+<p class="date">Ostatnia aktualizacja: 12 kwietnia 2026</p>
+
+<h2>W skrócie</h2>
+<p>FatTap nie zbiera żadnych danych. Nic nie opuszcza Twojego urządzenia.</p>
+
+<h2>Co robi aplikacja</h2>
+<p>FatTap wyświetla duże przyciski na ekranie, które pomagają sterować mapą w trasie. Kiedy naciskasz przycisk, aplikacja wykonuje gest przesunięcia lub zmiany zoomu. To wszystko co robi.</p>
+
+<h2>Jakie dane są zbierane</h2>
+<p>Żadne. FatTap:</p>
+<ul>
+    <li>Nie zbiera danych osobowych</li>
+    <li>Nie śledzi sposobu korzystania z aplikacji</li>
+    <li>Nie wysyła niczego przez internet</li>
+    <li>Nie używa plików cookies, analityki ani reklam</li>
+    <li>Nie udostępnia niczego podmiotom trzecim</li>
+</ul>
+
+<h2>Przechowywanie danych</h2>
+<p>FatTap zapisuje na urządzeniu tylko jedno ustawienie — czy przeczytałeś informację o usłudze dostępności. Żadne inne dane nie są zapisywane. Nic nie jest wysyłane na żaden serwer.</p>
+
+<h2>Usługa dostępności</h2>
+<p>FatTap potrzebuje tego uprawnienia, aby wykonywać gesty dotykowe w Twoim imieniu — przesuwać mapę i zmieniać zoom. Aplikacja nie czyta, nie obserwuje i nie rejestruje niczego na Twoim ekranie. Gesty są wykonywane wyłącznie po naciśnięciu przycisku.</p>
+
+<h2>Usługi zewnętrzne</h2>
+<p>FatTap nie zawiera żadnych usług zewnętrznych, reklam ani narzędzi analitycznych.</p>
+
+<h2>Dzieci</h2>
+<p>FatTap nie zbiera danych od nikogo, w tym od dzieci poniżej 13. roku życia.</p>
+
+<h2>Twoje prawa</h2>
+<p>Ponieważ FatTap nie zbiera żadnych danych osobowych, nie ma danych do wglądu, poprawienia ani usunięcia. Możesz w każdej chwili odinstalować aplikację, aby usunąć wszystkie lokalne ustawienia.</p>
+
+<h2>Zmiany w polityce</h2>
+<p>Jeśli ta polityka ulegnie zmianie, zaktualizowana wersja zostanie opublikowana tutaj z nową datą. Ponieważ aplikacja nie zbiera danych, istotne zmiany są mało prawdopodobne.</p>
+
+<div class="contact">
+    <h2>Kontakt</h2>
+    <p>Pytania? Zgłoś je tutaj:<br>
+    <a href="https://github.com/sewerk/MapOverlay/issues">github.com/sewerk/MapOverlay/issues</a></p>
+</div>
+
+</section>
+
+</body>
+</html>
