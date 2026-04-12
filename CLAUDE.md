@@ -6,12 +6,12 @@ Nakładka ekranowa z dużymi przyciskami gestów do sterowania mapą w trasie (n
 
 ```
 MainActivity
-└── SetupScreen (Compose) — konfiguracja uprawnień, start/stop nakładki
+└── SetupScreen (Compose) — konfiguracja uprawnień, start/stop nakładki, slidery gestów
 
 OverlayService (ForegroundService)
 └── osobne ComposeView w WindowManager
-    ├── FAB toggle (zwijanie/rozwijanie)
-    └── EdgeButtons (6 osobnych views na krawędziach ekranu)
+    ├── FAB toggle (tap = zwijanie/rozwijanie, long press = otwórz Setup UI)
+    └── EdgeButtons (6 osobnych views na krawędziach ekranu, powiększone)
 
 MapGestureAccessibilityService
 ├── performSwipe(direction) — jeden ślad, konfigurowalny czas
@@ -24,7 +24,9 @@ Nakładka ma dwa tryby:
 - **Zwinięty:** mały FAB w lewym górnym rogu
 - **Rozwinięty:** przyciski rozłożone po krawędziach ekranu (góra/dół/lewo/prawo), zoom ＋ pod lewą krawędzią, zoom － pod prawą. Środek ekranu wolny — widać aplikację pod spodem.
 
-Przyciski półprzezroczyste (~30% opacity), reagują na press (nie tap) — odporne na przesunięcie palca podczas ruchu.
+FAB: tap = toggle, long press = otwiera MainActivity (Setup UI).
+
+Przyciski krawędziowe półprzezroczyste (~30% opacity), reagują na press (nie tap) — odporne na przesunięcie palca podczas ruchu. Góra/dół są 2× szersze, boki i zoom 2× wyższe dla łatwiejszego celowania w trasie.
 
 ## Komunikacja między komponentami
 
@@ -36,16 +38,15 @@ Przyciski półprzezroczyste (~30% opacity), reagują na press (nie tap) — odp
 
 ## Strojenie gestów
 
-Wszystkie parametry w `GestureConfig` (`MapGestureAccessibilityService.kt`):
+Parametry gestów w `GestureConfig` (`MapGestureAccessibilityService.kt`). Trzy z nich są konfigurowalne przez użytkownika z Setup UI (slidery), reszta hardcoded:
 
-| Parametr | Domyślnie | Efekt |
-|----------|-----------|-------|
-| `SWIPE_DISTANCE_RATIO` | 0.25 | dystans swipe jako % szerokości ekranu |
-| `SWIPE_DURATION_MS` | 300 | czas trwania swipe |
-| `ZOOM_IN_PERCENT` | 0.14 | rozstaw palców zoom-in (% szer.) |
-| `ZOOM_OUT_PERCENT` | 0.07 | rozstaw palców zoom-out (% szer.) |
-| `ZOOM_IN_DURATION_MS` | 400 | czas trwania pinch zoom-in |
-| `ZOOM_OUT_DURATION_MS` | 400 | czas trwania pinch zoom-out |
+- **`swipeDistanceRatio`** — dystans swipe jako % szerokości ekranu (slider w UI)
+- **`zoomInPercent`** — rozstaw palców zoom-in jako % szer. (slider w UI)
+- **`zoomOutPercent`** — rozstaw palców zoom-out jako % szer. (slider w UI, min 7%)
+- `SWIPE_DURATION_MS` — czas trwania swipe (hardcoded)
+- `ZOOM_IN_DURATION_MS` / `ZOOM_OUT_DURATION_MS` — czas trwania pinch (hardcoded)
+
+Wartości użytkownika persystowane w SharedPreferences (`map_overlay_prefs`), ładowane w `MainActivity.onCreate`, zmiana z slidera działa natychmiast (config czytany przy każdym geście).
 
 ## WindowManager — osobne views zamiast fullscreen
 
@@ -59,6 +60,7 @@ Kluczowa decyzja: overlay NIE używa jednego fullscreen `ComposeView` — to blo
 Flagi WindowManager:
 - `FLAG_NOT_FOCUSABLE` — dotyki poza view trafiają do aplikacji pod spodem
 - `FLAG_NOT_TOUCH_MODAL` — pozwala na interakcję z aplikacją w wolnych obszarach
+- `FLAG_SHOW_WHEN_LOCKED` — overlay widoczny i interaktywny na ekranie blokady
 
 `OverlayLifecycleOwner` implementuje `LifecycleOwner + ViewModelStoreOwner + SavedStateRegistryOwner` — współdzielony między wszystkimi ComposeView, niezbędny bo Compose jest hostowany poza Activity.
 
@@ -73,5 +75,5 @@ AGP 9.0.1, Gradle 9.4.0, wbudowany Kotlin (bez osobnego pluginu `kotlin-android`
 ## Znane ograniczenia
 
 - AccessibilityService jest `null` do momentu ręcznego włączenia w ustawieniach systemowych
-- Gesty mogą nie działać na ekranach systemowych (ekran blokady, panel powiadomień)
+- Gesty mogą nie działać na niektórych ekranach systemowych (panel powiadomień)
 - `FLAG_NOT_FOCUSABLE` sprawia, że nakładka nie przechwytuje dotyku w obszarach bez przycisków, ale też nie może obsługiwać focus/klawiatury
