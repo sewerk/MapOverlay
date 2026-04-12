@@ -25,15 +25,15 @@ private val ButtonBg = Color(0xFF1E1E1E)
 private const val ButtonBgAlpha = 0.65f
 
 @Composable
-fun FabToggle(expanded: Boolean, onToggle: () -> Unit) {
+fun FabToggle(expanded: Boolean, onToggle: () -> Unit, onLongPress: () -> Unit) {
     Surface(
         modifier = Modifier
             .size(84.dp)
             .pointerInput(Unit) {
-                detectTapGestures(onPress = {
-                    onToggle()
-                    tryAwaitRelease()
-                })
+                detectTapGestures(
+                    onTap = { onToggle() },
+                    onLongPress = { onLongPress() }
+                )
             },
         shape = CircleShape,
         color = ButtonBg.copy(alpha = 0.75f),

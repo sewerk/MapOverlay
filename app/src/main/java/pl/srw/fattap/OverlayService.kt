@@ -56,6 +56,13 @@ class OverlayService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int =
         START_NOT_STICKY
 
+    private fun openSetup() {
+        val intent = Intent(this, MainActivity::class.java).apply {
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+        startActivity(intent)
+    }
+
     private fun toggle() {
         if (expanded.value) {
             removeEdgeButtons()
@@ -72,7 +79,11 @@ class OverlayService : Service() {
             y = 8.dp.toPx()
         }
         val view = createComposeView {
-            FabToggle(expanded = expanded.value) { toggle() }
+            FabToggle(
+                expanded = expanded.value,
+                onToggle = { toggle() },
+                onLongPress = { openSetup() }
+            )
         }
         windowManager.addView(view, params)
         fabView = view
@@ -142,8 +153,10 @@ class OverlayService : Service() {
         WindowManager.LayoutParams(
             width, height,
             WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
-            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-                    or WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
+            @Suppress("DEPRECATION")
+            (WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                    or WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
+                    or WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED),
             PixelFormat.TRANSLUCENT
         ).apply { this.gravity = gravity }
 
