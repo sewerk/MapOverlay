@@ -79,47 +79,52 @@ class OverlayService : Service() {
     }
 
     private fun addEdgeButtons() {
-        val btnSize = BUTTON_SIZE_DP.dp.toPx()
+        val btn = BUTTON_SIZE_DP.dp.toPx()
+        val btn2 = (BUTTON_SIZE_DP * 2).dp.toPx()
         val screenH = Resources.getSystem().displayMetrics.heightPixels
-        val yOneThird = screenH / 3 - btnSize / 2
-        val yTwoThirds = screenH * 2 / 3 - btnSize / 2
+        val yOneThird = screenH / 3 - btn2 / 2   // tall buttons centered at 1/3
+        val yTwoThirds = screenH * 2 / 3 - btn2 / 2
 
         data class Spec(
             val label: String, val gravity: Int,
+            val wPx: Int, val hPx: Int,
             val yOff: Int = 0, val action: () -> Unit
         )
 
         val buttons = listOf(
-            Spec("▲", Gravity.TOP or Gravity.CENTER_HORIZONTAL) {
+            Spec("▲", Gravity.TOP or Gravity.CENTER_HORIZONTAL, btn2, btn) {
                 MapGestureAccessibilityService.instance?.performSwipe(SwipeDirection.UP)
             },
-            Spec("▼", Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL) {
+            Spec("▼", Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL, btn2, btn) {
                 MapGestureAccessibilityService.instance?.performSwipe(SwipeDirection.DOWN)
             },
-            Spec("◀", Gravity.TOP or Gravity.START, yOff = yOneThird) {
+            Spec("◀", Gravity.TOP or Gravity.START, btn, btn2, yOff = yOneThird) {
                 MapGestureAccessibilityService.instance?.performSwipe(SwipeDirection.LEFT)
             },
-            Spec("▶", Gravity.TOP or Gravity.END, yOff = yOneThird) {
+            Spec("▶", Gravity.TOP or Gravity.END, btn, btn2, yOff = yOneThird) {
                 MapGestureAccessibilityService.instance?.performSwipe(SwipeDirection.RIGHT)
             },
-            Spec("＋", Gravity.TOP or Gravity.START, yOff = yTwoThirds) {
+            Spec("＋", Gravity.TOP or Gravity.START, btn, btn2, yOff = yTwoThirds) {
                 MapGestureAccessibilityService.instance?.performZoom(true)
             },
-            Spec("－", Gravity.TOP or Gravity.END, yOff = yTwoThirds) {
+            Spec("－", Gravity.TOP or Gravity.END, btn, btn2, yOff = yTwoThirds) {
                 MapGestureAccessibilityService.instance?.performZoom(false)
             }
         )
 
+        val btnDp = BUTTON_SIZE_DP.dp
+        val btn2Dp = (BUTTON_SIZE_DP * 2).dp
         for (spec in buttons) {
-            val params = overlayParams(btnSize, btnSize, spec.gravity).apply {
+            val params = overlayParams(spec.wPx, spec.hPx, spec.gravity).apply {
                 y = spec.yOff
             }
-            val sizeDp = BUTTON_SIZE_DP.dp
+            val wDp = if (spec.wPx == btn2) btn2Dp else btnDp
+            val hDp = if (spec.hPx == btn2) btn2Dp else btnDp
             val view = createComposeView {
                 EdgeButton(
                     label = spec.label,
-                    width = sizeDp,
-                    height = sizeDp,
+                    width = wDp,
+                    height = hDp,
                     onPress = spec.action
                 )
             }
