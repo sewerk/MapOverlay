@@ -7,7 +7,11 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.core.net.toUri
 import androidx.lifecycle.Lifecycle
@@ -23,6 +27,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        GestureConfig.loadFrom(prefs)
         setContent {
             MaterialTheme {
                 Surface(modifier = Modifier.fillMaxSize()) {
@@ -36,6 +41,9 @@ class MainActivity : ComponentActivity() {
                         mutableStateOf(OverlayService.isRunning)
                     }
                     var showDisclosure by remember { mutableStateOf(false) }
+                    var swipeDistance by remember { mutableFloatStateOf(GestureConfig.swipeDistanceRatio) }
+                    var zoomIn by remember { mutableFloatStateOf(GestureConfig.zoomInPercent) }
+                    var zoomOut by remember { mutableFloatStateOf(GestureConfig.zoomOutPercent) }
 
                     LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
                         hasOverlayPermission = Settings.canDrawOverlays(this@MainActivity)
@@ -47,6 +55,9 @@ class MainActivity : ComponentActivity() {
                         hasOverlayPermission = hasOverlayPermission,
                         hasAccessibilityService = hasAccessibilityService,
                         overlayRunning = overlayRunning,
+                        swipeDistance = swipeDistance,
+                        zoomIn = zoomIn,
+                        zoomOut = zoomOut,
                         onRequestOverlay = {
                             startActivity(
                                 Intent(
@@ -69,6 +80,21 @@ class MainActivity : ComponentActivity() {
                         onStopOverlay = {
                             stopService(Intent(this, OverlayService::class.java))
                             overlayRunning = false
+                        },
+                        onSwipeDistanceChange = {
+                            swipeDistance = it
+                            GestureConfig.swipeDistanceRatio = it
+                            GestureConfig.saveTo(prefs)
+                        },
+                        onZoomInChange = {
+                            zoomIn = it
+                            GestureConfig.zoomInPercent = it
+                            GestureConfig.saveTo(prefs)
+                        },
+                        onZoomOutChange = {
+                            zoomOut = it
+                            GestureConfig.zoomOutPercent = it
+                            GestureConfig.saveTo(prefs)
                         }
                     )
 

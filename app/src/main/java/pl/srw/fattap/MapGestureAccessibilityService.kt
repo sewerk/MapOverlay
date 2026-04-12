@@ -2,18 +2,42 @@ package pl.srw.fattap
 
 import android.accessibilityservice.AccessibilityService
 import android.accessibilityservice.GestureDescription
+import android.content.SharedPreferences
 import android.graphics.Path
 import android.util.Log
 import android.view.accessibility.AccessibilityEvent
+import androidx.core.content.edit
 import java.util.concurrent.ConcurrentLinkedQueue
 
 object GestureConfig {
-    const val SWIPE_DISTANCE_RATIO = 0.25f
+    var swipeDistanceRatio = DEFAULT_SWIPE_DISTANCE_RATIO
     const val SWIPE_DURATION_MS = 300L
-    const val ZOOM_IN_PERCENT = 0.14f     // pinch spread as % of screen width
-    const val ZOOM_OUT_PERCENT = 0.07f
+    var zoomInPercent = DEFAULT_ZOOM_IN_PERCENT
+    var zoomOutPercent = DEFAULT_ZOOM_OUT_PERCENT
     const val ZOOM_IN_DURATION_MS = 400L
     const val ZOOM_OUT_DURATION_MS = 400L
+
+    const val DEFAULT_SWIPE_DISTANCE_RATIO = 0.25f
+    const val DEFAULT_ZOOM_IN_PERCENT = 0.14f
+    const val DEFAULT_ZOOM_OUT_PERCENT = 0.07f
+
+    private const val KEY_SWIPE_DISTANCE = "swipe_distance_ratio"
+    private const val KEY_ZOOM_IN = "zoom_in_percent"
+    private const val KEY_ZOOM_OUT = "zoom_out_percent"
+
+    fun loadFrom(prefs: SharedPreferences) {
+        swipeDistanceRatio = prefs.getFloat(KEY_SWIPE_DISTANCE, DEFAULT_SWIPE_DISTANCE_RATIO)
+        zoomInPercent = prefs.getFloat(KEY_ZOOM_IN, DEFAULT_ZOOM_IN_PERCENT)
+        zoomOutPercent = prefs.getFloat(KEY_ZOOM_OUT, DEFAULT_ZOOM_OUT_PERCENT)
+    }
+
+    fun saveTo(prefs: SharedPreferences) {
+        prefs.edit {
+            putFloat(KEY_SWIPE_DISTANCE, swipeDistanceRatio)
+            putFloat(KEY_ZOOM_IN, zoomInPercent)
+            putFloat(KEY_ZOOM_OUT, zoomOutPercent)
+        }
+    }
 }
 
 enum class SwipeDirection { LEFT, RIGHT, UP, DOWN }
@@ -40,7 +64,7 @@ class MapGestureAccessibilityService : AccessibilityService() {
         val metrics = resources.displayMetrics
         val cx = metrics.widthPixels / 2f
         val cy = metrics.heightPixels / 2f
-        val distance = metrics.widthPixels * GestureConfig.SWIPE_DISTANCE_RATIO
+        val distance = metrics.widthPixels * GestureConfig.swipeDistanceRatio
 
         val path = Path()
         // Swipe direction = direction the content moves.
@@ -74,7 +98,7 @@ class MapGestureAccessibilityService : AccessibilityService() {
         val metrics = resources.displayMetrics
         val cx = metrics.widthPixels / 2f
         val cy = metrics.heightPixels / 2f
-        val percent = if (zoomIn) GestureConfig.ZOOM_IN_PERCENT else GestureConfig.ZOOM_OUT_PERCENT
+        val percent = if (zoomIn) GestureConfig.zoomInPercent else GestureConfig.zoomOutPercent
         val offset = metrics.widthPixels * 0.03f  // min finger gap from center
         val travel = metrics.widthPixels * percent / 2f
         Log.d(TAG, "zoom ${if (zoomIn) "IN" else "OUT"}: offset=${offset.toInt()} travel=${travel.toInt()} screen=${metrics.widthPixels}")

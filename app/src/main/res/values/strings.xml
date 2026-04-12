@@ -12,6 +12,11 @@
     <string name="notification_channel_name">FatTap</string>
     <string name="notification_title">FatTap active</string>
 
+    <string name="settings_header">Settings</string>
+    <string name="setting_swipe_distance">Arrow jump distance</string>
+    <string name="setting_zoom_in">Zoom in strength</string>
+    <string name="setting_zoom_out">Zoom out strength</string>
+
     <string name="disclosure_title">Accessibility Service Usage</string>
     <string name="disclosure_body">This app uses the Accessibility Service to perform touch gestures (swipe, pinch zoom) on your behalf. It does not collect, store, or transmit any personal data. The service only executes gestures when you press the overlay buttons.</string>
     <string name="disclosure_accept">I understand</string>
