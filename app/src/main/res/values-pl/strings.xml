@@ -12,6 +12,11 @@
     <string name="notification_channel_name">FatTap</string>
     <string name="notification_title">FatTap aktywny</string>
 
+    <string name="settings_header">Ustawienia</string>
+    <string name="setting_swipe_distance">Długość przesunięcia strzałki</string>
+    <string name="setting_zoom_in">Siła przybliżenia</string>
+    <string name="setting_zoom_out">Siła oddalenia</string>
+
     <string name="disclosure_title">Użycie usługi dostępności</string>
     <string name="disclosure_body">Ta aplikacja używa usługi dostępności do wykonywania gestów dotykowych (swipe, pinch zoom) w Twoim imieniu. Nie zbiera, nie przechowuje ani nie przesyła żadnych danych osobowych. Usługa wykonuje gesty wyłącznie po naciśnięciu przycisków nakładki.</string>
     <string name="disclosure_accept">Rozumiem</string>
