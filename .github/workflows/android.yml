@@ -49,15 +49,15 @@ jobs:
         run: printf '%s' "${{ secrets.SIGNING_KEY }}" | base64 --decode > keystore.jks
 
       - name: Build
-        run: ./gradlew app:lintRelease bundleRelease
+        run: ./gradlew app:lintRelease assembleRelease
         env:
           KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
 
-      - name: Upload AAB
+      - name: Upload APK
         uses: actions/upload-artifact@v7
         with:
-          name: app-release-aab
-          path: app/build/outputs/bundle/release/*.aab
+          name: app-release-apk
+          path: app/build/outputs/apk/release/*.apk
           if-no-files-found: error
